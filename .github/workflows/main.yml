@@ -4,7 +4,7 @@ on:
 jobs:
   secure-rdp:
     runs-on: windows-latest
-    timeout-minutes: 240   # نقصنا الوقت لـ 4 ساعات بدل 60
+    timeout-minutes: 240
 
     steps:
       - name: Configure Core RDP Settings
@@ -41,7 +41,6 @@ jobs:
         run: |
           $tsUrl = "https://pkgs.tailscale.com/stable/tailscale-setup-latest-amd64.msi"
           $installerPath = "$env:TEMP\tailscale.msi"
-
           Invoke-WebRequest -Uri $tsUrl -OutFile $installerPath
           Start-Process msiexec.exe -ArgumentList "/i", "`"$installerPath`"", "/quiet", "/norestart" -Wait
           Remove-Item $installerPath -Force
@@ -80,6 +79,6 @@ jobs:
           Write-Host "==================`n"
           $end = (Get-Date).AddHours(2)
           while ((Get-Date) -lt $end) {
-              Write-Host "[$(Get-Date)] RDP Active - Use Ctrl+C in workflow to terminate"
+              Write-Host "[$(Get-Date)] RDP Active"
               Start-Sleep -Seconds 300
           }
